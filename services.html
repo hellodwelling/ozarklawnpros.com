@@ -29,11 +29,8 @@
        
      
     
-    
     <link href="https://prophone.herokuapp.com/staticfiles/landing_page_gen/style.css" rel="stylesheet">
-    
     <link href="https://prophone.herokuapp.com/staticfiles/landing_page_gen/render.css" rel="stylesheet">
-     <!-- <script src="/staticfiles/landing_page_gen/render.js"></script>   -->
     <script src="https://prophone.herokuapp.com/staticfiles/landing_page_gen/render.js"></script> 
 </head>
 
@@ -43,7 +40,7 @@
     
 
 <div class="fixed z-40 w-full lg:h-25 lg:py-4 items-start justify-start  bg-white text-gray-700  dark-mode:text-gray-200 dark-mode:bg-gray-800">
-  <div x-data="{ open: false }" class="flex flex-col lg:flex-r max-w-screen-xl px-4 mx-auto lg:items-center lg:justify-between lg:flex-row lg:px-6 lg:px-8">
+  <div x-data="{ open: false,buttonDisabled: false }" class="flex flex-col lg:flex-r max-w-screen-xl px-4 mx-auto lg:items-center lg:justify-between lg:flex-row lg:px-6 lg:px-8">
     <div class="py-4 flex flex-row items-center justify-between">
         
         <a href="index" class="text-lg font-bold tracking-widest  text-gray-900  uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">Ozark Lawn Professionals LLC</a>
@@ -76,7 +73,6 @@
     <div> Galleries
         <i class="fa fa-caret-down"></i>
     </div>
-    <!-- for desktop -->
     <div class="hidden lg:group-hover:opacity-100 lg:opacity-0 transition duration-500 ease-in-out lg:flex flex-col bg-white z-50 w-full min-w-max absolute top-10 shadow-lg rounded-md px-4 py-4 space-y-3">
         
             <a class="transparent rounded-lg text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="gallery-Mowing"> Mowing </a>
@@ -84,7 +80,6 @@
             <a class="transparent rounded-lg text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="gallery-Landscaping"> Landscaping </a>
         
     </div> 
-    <!-- for mobile b/c can't enable tailwind variants w/o postcss build -->
     <div id='mobile-dropdown' class="lg:hidden hidden transition duration-500 ease-in-out flex flex-col bg-white z-50 w-full min-w-max absolute top-10 shadow-lg rounded-md px-4 py-4 space-y-3">
         
             <a class="transparent rounded-lg text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="gallery-Mowing"> Mowing </a>
@@ -115,7 +110,7 @@
       
           <a target = "_blank"  x-on:click.prevent="open = true" class="" href="">Send us a Text</a>
             <div x-show.transition.opacity="open" class="transform-none p-4 fixed h-screen w-screen flex justify-center items-center bottom-0 right-0 bg-black bg-opacity-75 z-50">
-    <form x-on:click.away="open = false" x-show.transition="open" class=" text-black max-w-3xl max-h-full h-auto p-8 py-10 overflow-auto bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7 mt-16 md:mt-0 md:w-2/5 z-50">
+    <form  x-data="{ buttonDisabled: false }" x-on:click.away="open = false" x-show.transition="open" class=" text-black max-w-3xl max-h-full h-auto p-8 py-10 overflow-auto bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7 mt-16 md:mt-0 md:w-2/5 z-50">
             <h3 class="mb-6 text-2xl font-medium text-black text-center">Send us a Text</h3>
         <div class="block mb-4 border border-gray-200 rounded-lg">
             <input type="text" name="first-name" id="0-first-name" class="block w-full px-4 py-3 border-2 border-transparent rounded-lg focus:border-blue-500 focus:outline-none" placeholder="First Name">
@@ -130,14 +125,18 @@
             <textarea name="message" cols="5" id="0-message" class="block w-full px-4 py-3 border-2 border-transparent rounded-lg focus:border-blue-500 focus:outline-none" placeholder="What is your message?"></textarea>
         </div>
         <div class="block">
-        <button type="button" 
+        <button
+
+                x-on:click.debounce.500ms="buttonDisabled = true ;send_sms(0, 'Ozark-Lawn-Professionals-LLC')"
+                 x-bind:disabled="buttonDisabled"
+                type="button"
          
             onMouseOver="this.style.backgroundColor='#078055'; this.style.color='#000000' "
             onMouseOut="this.style.backgroundColor='#000000'; this.style.color='white'"
             style="background-color:#000000; color:white"               
 
          
-        onclick= "send_sms(0, 'Ozark-Lawn-Professionals-LLC')" 
+
         class="w-full px-3 py-4 font-bold font-lg text-white  bg-green-400 text-white hover:bg-black hover:text-green-400 rounded-lg">Send</button> 
         </div>           
 
@@ -171,7 +170,7 @@
 </button>
 
         <div x-show.transition.opacity="open" class="transform-none p-4 fixed h-screen w-screen flex justify-center items-center bottom-0 right-0 bg-black bg-opacity-75 z-50">
-    <form x-on:click.away="open = false" x-show.transition="open" class=" text-black max-w-3xl max-h-full h-auto p-8 py-10 overflow-auto bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7 mt-16 md:mt-0 md:w-2/5 z-50">
+    <form  x-data="{ buttonDisabled: false }" x-on:click.away="open = false" x-show.transition="open" class=" text-black max-w-3xl max-h-full h-auto p-8 py-10 overflow-auto bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7 mt-16 md:mt-0 md:w-2/5 z-50">
             <h3 class="mb-6 text-2xl font-medium text-black text-center">Send us a Text</h3>
         <div class="block mb-4 border border-gray-200 rounded-lg">
             <input type="text" name="first-name" id="2-first-name" class="block w-full px-4 py-3 border-2 border-transparent rounded-lg focus:border-blue-500 focus:outline-none" placeholder="First Name">
@@ -186,14 +185,18 @@
             <textarea name="message" cols="5" id="2-message" class="block w-full px-4 py-3 border-2 border-transparent rounded-lg focus:border-blue-500 focus:outline-none" placeholder="What is your message?"></textarea>
         </div>
         <div class="block">
-        <button type="button" 
+        <button
+
+                x-on:click.debounce.500ms="buttonDisabled = true ;send_sms(2, 'Ozark-Lawn-Professionals-LLC')"
+                 x-bind:disabled="buttonDisabled"
+                type="button"
          
             onMouseOver="this.style.backgroundColor='#078055'; this.style.color='#000000' "
             onMouseOut="this.style.backgroundColor='#000000'; this.style.color='white'"
             style="background-color:#000000; color:white"               
 
          
-        onclick= "send_sms(2, 'Ozark-Lawn-Professionals-LLC')" 
+
         class="w-full px-3 py-4 font-bold font-lg text-white  bg-green-400 text-white hover:bg-black hover:text-green-400 rounded-lg">Send</button> 
         </div>           
 
@@ -201,7 +204,6 @@
 </div>
     </div>
 
-    
     
     <section  style= "background-color:#078055"   id= "services" class="lg:mt-0 relative w-full px-8 font-sans leading-6  bg-green-900 border-0 border-green-200 text-white border-solid ">
         <div class="flex flex-col items-center max-w-6xl px-8 py-20 mx-auto leading-6 border-solid md:items-stretch md:justify-center md:py-24  mt-24 ">
@@ -219,12 +221,11 @@
                     
                 <div class="max-w-xs col-span-4 font-sans border-0 border-green-200 ">
                     <div class="box-border flex flex-col items-center  h-full px-2 py-4 md:py-8 mx-4 leading-6 text-center border-solid ">
-                        
                         <div  class="md:mt-6 font-sans text-center border-0 border-green-200 ">
-                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Fall Clean Up</h3>
+                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Small Landscape Design and Installation</h3>
                             <p
                                 class="box-border mx-0 mt-3 mb-0 font-normal leading-snug text-center border-solid">
-                                From tree debris to general yard debris we have the equipment to haul away unwanted materials. We will ensure your lawn is not cluttered with unwanted debris.
+                                Small Landscape Design/ Install.  Flowerbed with a simple and clean design with mulch and edging. Pricing: $800-$2,000
                             </p>
                         </div>
                     </div>
@@ -232,12 +233,11 @@
                     
                 <div class="max-w-xs col-span-4 font-sans border-0 border-green-200 ">
                     <div class="box-border flex flex-col items-center  h-full px-2 py-4 md:py-8 mx-4 leading-6 text-center border-solid ">
-                        
                         <div  class="md:mt-6 font-sans text-center border-0 border-green-200 ">
-                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Edging</h3>
+                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Medium Landscape Design and Installation</h3>
                             <p
                                 class="box-border mx-0 mt-3 mb-0 font-normal leading-snug text-center border-solid">
-                                Nothing makes for a better finish on your lawn than clearly defined boarders with our edging services. We have the equipment and knowledge to leave perfect lines.
+                                Multiple flowerbeds with annual and perennial plants, mulch, and edging; 1000-3000 square feet of sod. Pricing: $3,200-$5,500<br>
                             </p>
                         </div>
                     </div>
@@ -245,12 +245,11 @@
                     
                 <div class="max-w-xs col-span-4 font-sans border-0 border-green-200 ">
                     <div class="box-border flex flex-col items-center  h-full px-2 py-4 md:py-8 mx-4 leading-6 text-center border-solid ">
-                        
                         <div  class="md:mt-6 font-sans text-center border-0 border-green-200 ">
-                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Shrub Trimming</h3>
+                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Complex Landscape Design and Installation</h3>
                             <p
                                 class="box-border mx-0 mt-3 mb-0 font-normal leading-snug text-center border-solid">
-                                Shrub trimming can transform your property. Our experienced landscapers will rid your home overgrowth and keep your shrubs looking immaculate.
+                                Installation of a variety of flowerbeds with annuals, perennials, and native trees, mulch, and edging; 5000-25000 square feet of sod installed. Pricing: Custom $
                             </p>
                         </div>
                     </div>
@@ -258,12 +257,11 @@
                     
                 <div class="max-w-xs col-span-4 font-sans border-0 border-green-200 ">
                     <div class="box-border flex flex-col items-center  h-full px-2 py-4 md:py-8 mx-4 leading-6 text-center border-solid ">
-                        
                         <div  class="md:mt-6 font-sans text-center border-0 border-green-200 ">
-                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Mowing</h3>
+                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Landscape Concierge and Maintenance</h3>
                             <p
                                 class="box-border mx-0 mt-3 mb-0 font-normal leading-snug text-center border-solid">
-                                A big part of lawn maintenance is ensuring your lawn is regularly mowed. We know life gets busy, and we are here to help keep your lawn looking fresh.
+                                Flowerbed Weed Control |  Prune/ Trim all perennials as needed throughout the year | Cleanup any debris in flowerbeds (sticks, leaves, trash) | Annual flowerbed plantings |  Spray all weeds in the cracks of hard surfaces such as driveway, sidewalk, roadside |  Direct line of contact with the Garden Concierge Manager for quick feedback/ consultation. Pricing: Starting at $200 per month with 12 month agreement
                             </p>
                         </div>
                     </div>
@@ -271,12 +269,23 @@
                     
                 <div class="max-w-xs col-span-4 font-sans border-0 border-green-200 ">
                     <div class="box-border flex flex-col items-center  h-full px-2 py-4 md:py-8 mx-4 leading-6 text-center border-solid ">
-                        
                         <div  class="md:mt-6 font-sans text-center border-0 border-green-200 ">
-                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Mulch Installation</h3>
+                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Residential Property Maintenance</h3>
                             <p
                                 class="box-border mx-0 mt-3 mb-0 font-normal leading-snug text-center border-solid">
-                                Mulch is used to help maintain the health of your landscape and adds a professional touch to any planter. It can be placed over soil to lock in moisture and improve soil conditions to encourage a healthier lawn. We provide a variety of professional mulching services.
+                                Weeding flowerbeds | Mowing | Edging all hard surfaces | Weedeating | Blowing off all hard surfaces | Leaf removal | Mulch installation | Gutter cleaning. Starting at $200 per month with a 12 month agreement<br>
+                            </p>
+                        </div>
+                    </div>
+                </div>        
+                    
+                <div class="max-w-xs col-span-4 font-sans border-0 border-green-200 ">
+                    <div class="box-border flex flex-col items-center  h-full px-2 py-4 md:py-8 mx-4 leading-6 text-center border-solid ">
+                        <div  class="md:mt-6 font-sans text-center border-0 border-green-200 ">
+                            <h3  style= "color:#000000"  class="box-border text-xl font-bold leading-none tracking-wider border-solid text-green-400  ">Flowerbed cleanup</h3>
+                            <p
+                                class="box-border mx-0 mt-3 mb-0 font-normal leading-snug text-center border-solid">
+                                Flower bed cleanups include trimming all bushes and plants, pulling weeds, installing new mulch, and hauling off all debris. Starting at $375
                             </p>
                         </div>
                     </div>
@@ -297,7 +306,6 @@
 
         
 
-            <!-- Question 1 -->
             <div x-data="{ show: false }" class="relative overflow-hidden border-b border-green-100 select-none">
                 <h3  
                 onMouseOver="this.style.color='#000000' "
@@ -327,13 +335,10 @@
 </section>
 
 
-    <!-- Have to adjust for multipage with multiple galleries, probs, if page contains gallery  if 'gallery' in page -->
 
 <section  style= "background-color:#078055"   class="py-10 bg-green-900">
-    
         <div class="flex flex-col justify-around text-center md:flex-row">
             <p class="order-last text-sm leading-tight text-green-400 md:order-first"> Crafted with <a  href="https://www.prophone.com/prosite" class="  text-white ">ProPhone</a>. Built with ❤️ by our team. </p>
-             
             <ul class="flex flex-row flex-wrap text-center justify-center pb-3 lg:-ml-4 lg:-mr-4 text-sm">
                 <li> <a  style= "color:#000000"  href="#about" class="px-2 md:px-4 text-green-400 hover:text-white">About Us</a> </li>
                 
@@ -362,7 +367,6 @@
 </div> 
 
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
-  
 
 </body>
 </html>
